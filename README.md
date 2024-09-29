@@ -24,9 +24,9 @@ NOTONOTO は、そんなプレーンであっさりとした Noto シリーズ�
 
 以下の特徴を備えています。
 
-- Noto シリーズの等幅英文フォント Noto Sans Mono 由来のラテン文字
-- Noto シリーズの日本語フォント Noto Sans JP 由来の日本語文字
-- Noto シリーズ由来のWeight
+- Noto シリーズの等幅英文フォント **Noto Sans Mono** 由来のラテン文字
+- Noto シリーズの日本語フォント **Noto Sans JP** 由来の日本語文字
+- 全9種類のウェイト
 - 半角・全角の幅比率が異なるバリエーションあり
     - Noto Sans Mono ExtraCondensed スタイルを用いた、幅比率 半角1:全角2
     - Noto Sans Mono 標準スタイルを用いた、幅比率 半角3:全角5
