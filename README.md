@@ -48,7 +48,7 @@ NOTONOTO は、そんなプレーンであっさりとした Noto シリーズ�
 
 | 通常版 (幅比率 半角1:全角2) | 35版 (幅比率 半角3:全角5) |
 | :---: | :---: |
-|  |  |
+| ![image](https://github.com/user-attachments/assets/d8b49dfe-6dbf-4a1d-97a2-40cb2540e217) | ![image](https://github.com/user-attachments/assets/8f581230-c059-4069-a672-51cc0e19b5c3) |
 
 ## ビルド
 
