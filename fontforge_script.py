@@ -221,9 +221,6 @@ def open_fonts(jp_style: str, eng_style: str):
     else:
         eng_font = fontforge.open(f"{SOURCE_FONTS_DIR}/{ENG_FONT}{eng_style}.ttf")
 
-    # fonttools merge エラー対処
-    jp_font = altuni_to_entity(jp_font)
-
     # フォント参照を解除する
     for glyph in jp_font.glyphs():
         if glyph.isWorthOutputting():
@@ -235,47 +232,6 @@ def open_fonts(jp_style: str, eng_style: str):
     eng_font.unlinkReferences()
 
     return jp_font, eng_font
-
-
-def altuni_to_entity(jp_font):
-    """Alternate Unicodeで透過的に参照して表示している箇所を実体のあるグリフに変換する"""
-    for glyph in jp_font.glyphs():
-        if glyph.altuni is not None:
-            # 以下形式のタプルで返ってくる
-            # (unicode-value, variation-selector, reserved-field)
-            # 第3フィールドは常に0なので無視
-            altunis = glyph.altuni
-
-            # variation-selectorがなく (-1)、透過的にグリフを参照しているものは実体のグリフに変換する
-            before_altuni = ""
-            for altuni in altunis:
-                # 直前のaltuniと同じ場合はスキップ
-                if altuni[1] == -1 and before_altuni != ",".join(map(str, altuni)):
-                    glyph.altuni = None
-                    copy_target_unicode = altuni[0]
-                    try:
-                        copy_target_glyph = jp_font.createChar(
-                            copy_target_unicode,
-                            f"uni{hex(copy_target_unicode).replace('0x', '').upper()}copy",
-                        )
-                    except Exception:
-                        copy_target_glyph = jp_font[copy_target_unicode]
-                    copy_target_glyph.clear()
-                    copy_target_glyph.width = glyph.width
-                    # copy_target_glyph.addReference(glyph.glyphname)
-                    jp_font.selection.select(glyph.glyphname)
-                    jp_font.copy()
-                    jp_font.selection.select(copy_target_glyph.glyphname)
-                    jp_font.paste()
-                before_altuni = ",".join(map(str, altuni))
-    # エンコーディングの整理のため、開き直す
-    font_path = f"{BUILD_FONTS_DIR}/{jp_font.fullname}_{uuid.uuid4()}.ttf"
-    jp_font.generate(font_path)
-    jp_font.close()
-    reopen_jp_font = fontforge.open(font_path)
-    # 一時ファイルを削除
-    os.remove(font_path)
-    return reopen_jp_font
 
 
 def add_nerd_font_glyphs(jp_font, eng_font):
